@@ -1,6 +1,6 @@
 package com.example.domain.usecase.cards
 
-import com.example.data.model.Card
+import com.example.data.dto.Card
 import com.example.domain.model.NewCardInfo
 import com.example.domain.repository.CardsRepository
 import com.example.domain.usecase.CardResult
@@ -24,7 +24,7 @@ class CreateCard(private val repository: CardsRepository) {
             CardResult.Success(
                 id = card._id,
                 idForImage = card.idForImage,
-                idForOtherThanImage = card.idForOtherThanImage,
+                idForOtherThanImage = card.idForNonImage,
                 author = username
             )
         } else CardResult.ServerError

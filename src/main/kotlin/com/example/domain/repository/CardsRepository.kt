@@ -1,12 +1,11 @@
 package com.example.domain.repository
 
-import com.example.data.model.*
-import com.example.domain.model.NewCardInfo
+import com.example.data.dto.*
 import com.example.domain.usecase.CardResult
 
 interface CardsRepository {
 
-    suspend fun getIdsByAuthors(authorList: List<String>): List<CardIdsServer>
+    suspend fun getIdsByAuthors(authorList: List<String>): List<IdsServer>
 
     suspend fun getUpdatesByIds(
         imageIdsList: List<String>,
@@ -17,7 +16,7 @@ interface CardsRepository {
 
     suspend fun getAuthorById(id: String): String
 
-    suspend fun getAllDecksForUser(userId: String)
+    suspend fun checkExistances(cardIds: List<String>): List<String>
 
     suspend fun getTempImage(id: String): String?
 
@@ -31,4 +30,8 @@ interface CardsRepository {
 
     suspend fun deleteCard(cardId: String): Boolean
 
+    suspend fun addDeckIdToCards(deckId: String, cardIds: List<String>): Boolean
+
+    suspend fun getAuthorsByIds(cardIds: List<String>): List<String>
+    suspend fun getIdAuthorPairsByIds(cardIds: List<String>): List<Pair<String?, String?>>
 }

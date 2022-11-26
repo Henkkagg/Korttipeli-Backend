@@ -1,7 +1,7 @@
 package com.example.domain.logicflow
 
 import com.example.domain.model.AccountClient
-import com.example.data.model.AccountServer
+import com.example.data.dto.AccountServer
 import com.example.domain.usecase.AccountManagementResult
 import com.example.domain.usecase.AccountManagementUsecases
 import org.koin.java.KoinJavaComponent.inject

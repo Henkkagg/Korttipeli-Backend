@@ -1,6 +1,5 @@
-package com.example.data.model
+package com.example.data.dto
 
-import org.litote.kmongo.Id
 import org.litote.kmongo.newId
 import java.util.*
 

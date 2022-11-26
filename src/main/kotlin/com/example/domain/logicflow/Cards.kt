@@ -1,6 +1,6 @@
 package com.example.domain.logicflow
 
-import com.example.data.model.CardIdsServer
+import com.example.data.dto.IdsServer
 import com.example.domain.model.CardDataPackage
 import com.example.domain.model.NewCardInfo
 import com.example.domain.usecase.CardResult
@@ -25,7 +25,7 @@ class Cards {
         return cards.createTempImage(base64Image)
     }
 
-    suspend fun getAllCards(cardIdsClientList: List<CardIdsServer>, username: String): CardDataPackage {
+    suspend fun getAllCards(cardIdsClientList: List<IdsServer>, username: String): CardDataPackage {
 
         //Check whose cards we should give the client
         val authorList = friendlist.getFriendlist(username) + username
@@ -52,7 +52,7 @@ class Cards {
             if (idsThatNeedChecking[i].idForImage != idsToCheckAgainst[i].idForImage) {
                 nonMatchingImages.add(idsToCheckAgainst[i]._id)
             }
-            if (idsThatNeedChecking[i].idForOtherThanImage != idsToCheckAgainst[i].idForOtherThanImage) {
+            if (idsThatNeedChecking[i].idForNonImage != idsToCheckAgainst[i].idForNonImage) {
                 nonMatchingInfos.add(idsToCheckAgainst[i]._id)
             }
         }
@@ -71,7 +71,6 @@ class Cards {
 
         if (!cards.verifyAuthority(cardInfo.id, username)) return CardResult.ServerError
 
-        println(cardInfo)
         val contentLegalityResult = cards.verifyContentLegality(cardInfo)
         if (contentLegalityResult !is CardResult.Success) return contentLegalityResult
 

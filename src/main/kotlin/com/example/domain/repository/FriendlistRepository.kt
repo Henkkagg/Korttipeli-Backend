@@ -1,6 +1,6 @@
 package com.example.domain.repository
 
-import com.example.data.model.RelationshipStatus
+import com.example.data.dto.RelationshipStatus
 
 interface FriendlistRepository {
     suspend fun getFriendsByUsername(username: String): List<String>

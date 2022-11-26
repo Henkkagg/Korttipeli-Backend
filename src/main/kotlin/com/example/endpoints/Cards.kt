@@ -1,6 +1,6 @@
 package com.example.endpoints
 
-import com.example.data.model.CardIdsServer
+import com.example.data.dto.IdsServer
 import com.example.domain.logicflow.Cards
 import com.example.domain.model.NewCardInfo
 import com.example.domain.usecase.CardResult
@@ -18,7 +18,7 @@ fun Route.cards() {
     get("/cards/get") {
         val username = call.principal<JWTPrincipal>()?.payload?.getClaim("username")?.asString() ?: return@get
 
-        val idsList = call.receive<List<CardIdsServer>>()
+        val idsList = call.receive<List<IdsServer>>()
 
         runCatching {
             val cardDataPackage = cards.getAllCards(idsList, username)

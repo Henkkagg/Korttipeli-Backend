@@ -1,15 +1,13 @@
 package com.example.domain.logicflow
 
-import com.example.data.model.RefreshIdUsernamePair
+import com.example.data.dto.RefreshIdUsernamePair
 import com.example.domain.model.Credidentials
 import com.example.domain.model.TokenPair
 import com.example.domain.usecase.AccountManagementResult
 import com.example.domain.usecase.AccountManagementUsecases
 import com.example.domain.usecase.AuthenticationUsecases
 import org.koin.java.KoinJavaComponent.inject
-import org.litote.kmongo.Id
 import org.litote.kmongo.newId
-import org.litote.kmongo.toId
 
 class Authentication {
     private val authentication: AuthenticationUsecases by inject(AuthenticationUsecases::class.java)

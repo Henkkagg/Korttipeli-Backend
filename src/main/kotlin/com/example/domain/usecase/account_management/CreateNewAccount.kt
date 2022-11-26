@@ -1,6 +1,6 @@
 package com.example.domain.usecase.account_management
 
-import com.example.data.model.AccountServer
+import com.example.data.dto.AccountServer
 import com.example.domain.repository.AccountRepository
 
 class CreateNewAccount(private val repository: AccountRepository) {

@@ -17,8 +17,6 @@ fun Route.authentication() {
     post("/authentication/login") {
         val credidentials = call.receive<Credidentials>()
 
-        println("all gucci DDDDD")
-
         val authenticationResult = authentication.checkCredidentials(credidentials)
         when (authenticationResult) {
 
@@ -28,9 +26,6 @@ fun Route.authentication() {
                     call.respond(HttpStatusCode.ExpectationFailed)
                     return@post
                 }
-
-                println("access: ${tokenPair.accessToken}")
-                println("refresh: ${tokenPair.refreshToken}")
 
                 call.respond(
                     HttpStatusCode.OK, hashMapOf(
@@ -56,13 +51,6 @@ fun Route.authentication() {
             val principal = call.principal<JWTPrincipal>()?.payload
             val id = principal?.getClaim("tokenId").toString()
             val username = principal?.getClaim("username")?.asString() ?: ""
-
-            val testi = call.request.headers["Authorization"]
-            val wtf = call.request.headers
-            println("Yritetty refreshata tällä: $testi")
-            wtf.forEach { s, strings ->
-                println(strings)
-            }
 
             val tokenPair = authentication.generateTokenPairByRefresh(id, username)
             if (tokenPair == null) {

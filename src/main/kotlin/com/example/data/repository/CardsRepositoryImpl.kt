@@ -1,20 +1,20 @@
 package com.example.data.repository
 
-import com.example.data.model.*
-import com.example.domain.model.NewCardInfo
+import com.example.data.dto.*
 import com.example.domain.repository.CardsRepository
 import com.example.domain.usecase.CardResult
 import org.litote.kmongo.*
 import org.litote.kmongo.coroutine.CoroutineDatabase
+import org.litote.kmongo.coroutine.projection
+import org.litote.kreflect.findProperty
 
 class CardsRepositoryImpl(db: CoroutineDatabase) : CardsRepository {
     private val tempImageCol = db.getCollection<TempImage>("temp_images")
     private val cardsCol = db.getCollection<Card>("cards")
-    override suspend fun getIdsByAuthors(authorList: List<String>): List<CardIdsServer> {
-        val projection = include(Card::_id, Card::idForImage, Card::idForOtherThanImage)
-        //data class CardIdsServer(val _id: String, val idForImage: String, val idForOtherThanImage: String)
+    override suspend fun getIdsByAuthors(authorList: List<String>): List<IdsServer> {
+        val projection = include(Card::_id, Card::idForImage, Card::idForNonImage)
 
-        return cardsCol.withDocumentClass<CardIdsServer>().find(Card::author `in` authorList)
+        return cardsCol.withDocumentClass<IdsServer>().find(Card::author `in` authorList)
             .projection(projection).toList()
     }
 
@@ -25,7 +25,7 @@ class CardsRepositoryImpl(db: CoroutineDatabase) : CardsRepository {
         val imageProjection = include(Card::_id, Card::idForImage, Card::base64Image)
         val infoProjection = include(
             Card::_id,
-            Card::idForOtherThanImage,
+            Card::idForNonImage,
             Card::title,
             Card::description,
             Card::type
@@ -50,8 +50,9 @@ class CardsRepositoryImpl(db: CoroutineDatabase) : CardsRepository {
         return cardsCol.withDocumentClass<AuthorOnly>().findOne(Card::_id eq id)?.author ?: ""
     }
 
-    override suspend fun getAllDecksForUser(userId: String) {
-        TODO("Not yet implemented")
+    override suspend fun checkExistances(cardIds: List<String>): List<String> {
+
+        return cardsCol.projection(Card::_id).filter(Card::_id `in` cardIds).toList()
     }
 
     override suspend fun createTempImage(base64Image: String): CardResult {
@@ -76,13 +77,28 @@ class CardsRepositoryImpl(db: CoroutineDatabase) : CardsRepository {
         return cardsCol.updateOneById(card._id, card).wasAcknowledged()
     }
 
-    override suspend fun updateInfo(card: CardUpdatedInfo): Boolean {
+    override suspend fun updateInfo(cardUpdatedInfo: CardUpdatedInfo): Boolean {
 
-        return cardsCol.updateOneById(card._id, card).wasAcknowledged()
+        return cardsCol.updateOneById(cardUpdatedInfo._id, cardUpdatedInfo).wasAcknowledged()
     }
 
     override suspend fun deleteCard(cardId: String): Boolean {
 
         return cardsCol.deleteOneById(cardId).wasAcknowledged()
+    }
+
+    override suspend fun addDeckIdToCards(deckId: String, cardIds: List<String>): Boolean {
+
+        return cardsCol.updateMany(Card::_id `in` cardIds, push(Card::containedInDecks, deckId)).wasAcknowledged()
+    }
+
+    override suspend fun getAuthorsByIds(cardIds: List<String>): List<String> {
+
+        return cardsCol.projection(Card::author).filter(Card::_id `in` cardIds).toList()
+    }
+
+    override suspend fun getIdAuthorPairsByIds(cardIds: List<String>): List<Pair<String?, String?>> {
+
+        return cardsCol.projection(Card::_id, Card::author).filter(Card::_id `in` cardIds).toList()
     }
 }

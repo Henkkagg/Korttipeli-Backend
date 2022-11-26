@@ -6,6 +6,7 @@ import com.example.domain.repository.AccountRepository
 class GetHashSaltPair(private val repository: AccountRepository) {
 
     suspend operator fun invoke(username: String): HashPairedWithSalt? {
+
         return repository.getHashSaltPairByUsername(username)
     }
 }

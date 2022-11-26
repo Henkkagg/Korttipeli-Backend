@@ -1,6 +1,6 @@
 package com.example.data.repository
 
-import com.example.data.model.RelationshipStatus
+import com.example.data.dto.RelationshipStatus
 import com.example.domain.repository.FriendlistRepository
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq

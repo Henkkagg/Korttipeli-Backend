@@ -1,8 +1,8 @@
 package com.example.domain.model
 
-import com.example.data.model.Card
-import com.example.data.model.UpdatedImage
-import com.example.data.model.UpdatedInfo
+import com.example.data.dto.Card
+import com.example.data.dto.UpdatedImage
+import com.example.data.dto.UpdatedInfo
 
 //Information that client sends to server when creating or updating card. Image is sent separately
 data class NewCardInfo(

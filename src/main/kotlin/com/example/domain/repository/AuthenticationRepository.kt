@@ -1,7 +1,6 @@
 package com.example.domain.repository
 
-import com.example.data.model.RefreshIdUsernamePair
-import org.litote.kmongo.Id
+import com.example.data.dto.RefreshIdUsernamePair
 
 interface AuthenticationRepository {
     suspend fun findUsernameAndDeleteById(id: String): String?

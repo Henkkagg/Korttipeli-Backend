@@ -1,13 +1,15 @@
 package com.example.data.repository
 
-import com.example.data.model.AccountServer
+import com.example.data.dto.AccountServer
 import com.example.domain.model.HashPairedWithSalt
 import com.example.domain.repository.AccountRepository
 import org.bson.types.Binary
 import org.litote.kmongo.Id
 import org.litote.kmongo.coroutine.CoroutineDatabase
+import org.litote.kmongo.coroutine.projection
 import org.litote.kmongo.eq
 import org.litote.kmongo.include
+import org.litote.kmongo.setValue
 
 class AccountRepositoryImpl(database: CoroutineDatabase) : AccountRepository {
     private val col = database.getCollection<AccountServer>("users")
@@ -59,5 +61,22 @@ class AccountRepositoryImpl(database: CoroutineDatabase) : AccountRepository {
         val salt = result.salt.data
 
         return HashPairedWithSalt(hash, salt)
+    }
+
+    override suspend fun registerToGame(gameId: String, username: String): Boolean {
+
+        return col.updateOne(AccountServer::username eq username, setValue(AccountServer::gameId, gameId))
+            .wasAcknowledged()
+    }
+
+    override suspend fun getGameIdForUser(username: String): String? {
+
+        return col.projection(AccountServer::gameId).filter(AccountServer::username eq username).first()
+    }
+
+    override suspend fun removeGameIdForUser(username: String): Boolean {
+
+        return col.updateOne(AccountServer::username eq username, setValue(AccountServer::gameId, null))
+            .wasAcknowledged()
     }
 }

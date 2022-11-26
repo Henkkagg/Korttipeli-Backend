@@ -1,7 +1,7 @@
 package com.example.domain.usecase.cards
 
-import com.example.data.model.UpdatedImage
-import com.example.data.model.UpdatedInfo
+import com.example.data.dto.UpdatedImage
+import com.example.data.dto.UpdatedInfo
 import com.example.domain.repository.CardsRepository
 
 class GetUpdatesByIds(private val repository: CardsRepository) {

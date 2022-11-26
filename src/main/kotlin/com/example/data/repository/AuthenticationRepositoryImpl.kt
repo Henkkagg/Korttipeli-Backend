@@ -1,8 +1,7 @@
 package com.example.data.repository
 
-import com.example.data.model.RefreshIdUsernamePair
+import com.example.data.dto.RefreshIdUsernamePair
 import com.example.domain.repository.AuthenticationRepository
-import org.litote.kmongo.Id
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
 

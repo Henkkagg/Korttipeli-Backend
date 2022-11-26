@@ -2,8 +2,6 @@ package com.example.domain.usecase.authentication
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.example.data.model.RefreshIdUsernamePair
-import org.litote.kmongo.Id
 import java.util.*
 
 class GenerateRefreshToken {

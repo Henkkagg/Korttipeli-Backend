@@ -11,8 +11,8 @@ fun main(args: Array<String>): Unit =
 fun Application.module() {
     configureKoin()
     configureAuthentication()
-    configureRouting()
     configureSockets()
+    configureRouting()
     configureSerialization()
     configureMonitoring()
 

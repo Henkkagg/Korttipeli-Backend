@@ -44,8 +44,8 @@ dependencies {
     implementation("io.insert-koin:koin-logger-slf4j:$koin_version")
 
     //Kmongo
-    implementation("org.litote.kmongo:kmongo:4.5.1")
-    implementation("org.litote.kmongo:kmongo-coroutine:4.5.1")
+    implementation("org.litote.kmongo:kmongo:4.6.1")
+    implementation("org.litote.kmongo:kmongo-coroutine:4.6.1")
 
     //Argon2
     implementation("de.mkammerer:argon2-jvm:2.11")

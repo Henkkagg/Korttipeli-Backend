@@ -1,18 +1,17 @@
 package com.example.di
 
-import com.example.data.repository.AccountRepositoryImpl
-import com.example.data.repository.AuthenticationRepositoryImpl
-import com.example.data.repository.CardsRepositoryImpl
-import com.example.data.repository.FriendlistRepositoryImpl
-import com.example.domain.repository.AccountRepository
-import com.example.domain.repository.AuthenticationRepository
-import com.example.domain.repository.CardsRepository
-import com.example.domain.repository.FriendlistRepository
+import com.example.data.repository.*
+import com.example.domain.repository.*
 import com.example.domain.usecase.*
 import com.example.domain.usecase.account_management.*
 import com.example.domain.usecase.authentication.*
 import com.example.domain.usecase.cards.*
+import com.example.domain.usecase.decks.*
 import com.example.domain.usecase.friendlist.*
+import com.example.domain.usecase.game.CreateGame
+import com.example.domain.usecase.game.GetGameId
+import com.example.domain.usecase.game.JoinGame
+import com.example.domain.usecase.game.UpdateAuthorizedCards
 import de.mkammerer.argon2.Argon2Factory
 import org.koin.dsl.module
 import org.litote.kmongo.coroutine.coroutine
@@ -29,6 +28,10 @@ val mainModule = module {
     single<FriendlistRepository> { FriendlistRepositoryImpl(get()) }
 
     single<CardsRepository> { CardsRepositoryImpl(get()) }
+
+    single<DecksRepository> { DecksReposotiryImpl(get()) }
+
+    single<GameRepository> { GameRepositoryImpl(get()) }
 
     single { Argon2Factory.createAdvanced(Argon2Factory.Argon2Types.ARGON2id) }
 
@@ -76,7 +79,28 @@ val mainModule = module {
             VerifyAuthority(get()),
             VerifyContentLegality(),
             UpdateCard(get()),
-            DeleteCard(get())
+            DeleteCard(get(), get())
+        )
+    }
+
+    single { CheckLegality() }
+
+    single {
+        DeckUsecases(
+            CreateDeck(get(), get(), get()),
+            GetDecksByClientIds(get(), get(), get()),
+            UpdateDeck(get(), get()),
+            checkLegality = get(),
+            DeleteDeck(get())
+        )
+    }
+
+    single {
+        GameUsecases(
+            CreateGame(get(), get()),
+            JoinGame(get(), get()),
+            GetGameId(get(), get()),
+            UpdateAuthorizedCards(get(), get(), get())
         )
     }
 

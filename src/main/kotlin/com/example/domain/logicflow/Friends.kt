@@ -1,6 +1,6 @@
 package com.example.domain.logicflow
 
-import com.example.data.model.RelationshipStatus
+import com.example.data.dto.RelationshipStatus
 import com.example.domain.model.RelationshipStatuses
 import com.example.domain.usecase.AccountManagementUsecases
 import com.example.domain.usecase.FriendlistUsecases

@@ -1,4 +1,4 @@
-package com.example.data.model
+package com.example.data.dto
 
 import com.google.gson.annotations.SerializedName
 import org.bson.codecs.pojo.annotations.BsonId
@@ -11,7 +11,7 @@ data class Card(
     //Ids verify that the corresponding data is still up-to-date in the cached card.
     //If data has been changed, Ids help client to only update the relevant part of the card.
     val idForImage: String = newId<Card>().toString(),
-    val idForOtherThanImage: String = newId<Card>().toString(),
+    val idForNonImage: String = newId<Card>().toString(),
 
     val author: String,
     val title: String,
@@ -19,13 +19,14 @@ data class Card(
     @SerializedName("image")
     val base64Image: String,
     //1=action, 2=virus, 3=secret
-    val type: Int
+    val type: Int,
+    val containedInDecks: List<String> = emptyList()
 )
 
 data class CardUpdatedInfoAndImage(
     val _id: String= newId<Card>().toString(),
     val idForImage: String = newId<Card>().toString(),
-    val idForOtherThanImage: String = newId<Card>().toString(),
+    val idForNonImage: String = newId<Card>().toString(),
 
     val title: String,
     val description: String,
@@ -36,7 +37,7 @@ data class CardUpdatedInfoAndImage(
 
 data class CardUpdatedInfo(
     val _id: String= newId<Card>().toString(),
-    val idForOtherThanImage: String = newId<Card>().toString(),
+    val idForNonImage: String = newId<Card>().toString(),
 
     val title: String,
     val description: String,
@@ -44,18 +45,20 @@ data class CardUpdatedInfo(
     val type: Int
 )
 
-data class CardIdsServer(
+//This is for both cards and decks
+data class IdsServer(
     @SerializedName("id")
     val _id: String,
     val idForImage: String,
-    val idForOtherThanImage: String
+    val idForNonImage: String
 )
 
-//Sent to client if image has changed on existing card
+//Sent to client if image has changed on existing card or deck
 data class UpdatedImage(
     @SerializedName("id")
     val _id: String,
     val idForImage: String,
+    @SerializedName("image")
     val base64Image: String
 )
 
@@ -63,7 +66,7 @@ data class UpdatedImage(
 data class UpdatedInfo(
     @SerializedName("id")
     val _id: String,
-    val idForOtherThanImage: String,
+    val idForNonImage: String,
     val title: String,
     val description: String,
     //1=action, 2=virus, 3=secret

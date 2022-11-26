@@ -1,8 +1,7 @@
 package com.example.domain.usecase.cards
 
-import com.example.data.model.Card
-import com.example.data.model.CardUpdatedInfo
-import com.example.data.model.CardUpdatedInfoAndImage
+import com.example.data.dto.CardUpdatedInfo
+import com.example.data.dto.CardUpdatedInfoAndImage
 import com.example.domain.model.NewCardInfo
 import com.example.domain.repository.CardsRepository
 import com.example.domain.usecase.CardResult
@@ -23,7 +22,7 @@ class UpdateCard(private val repository: CardsRepository) {
             return if (repository.updateInfoAndImage(card)) CardResult.Success(
                 card._id,
                 card.idForImage,
-                card.idForOtherThanImage
+                card.idForNonImage
             ) else CardResult.ServerError
         }
 
@@ -35,7 +34,7 @@ class UpdateCard(private val repository: CardsRepository) {
         )
 
         return if (repository.updateInfo(card)) CardResult.Success(
-            id = card._id, idForOtherThanImage = card.idForOtherThanImage
+            id = card._id, idForOtherThanImage = card.idForNonImage
         ) else CardResult.ServerError
     }
 }

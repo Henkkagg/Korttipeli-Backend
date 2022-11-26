@@ -1,6 +1,6 @@
 package com.example.domain.usecase.authentication
 
-import com.example.data.model.RefreshIdUsernamePair
+import com.example.data.dto.RefreshIdUsernamePair
 import com.example.domain.repository.AuthenticationRepository
 
 class StoreRefreshIdUsernamePair(private val repository: AuthenticationRepository) {
