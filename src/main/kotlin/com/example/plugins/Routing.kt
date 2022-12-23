@@ -1,8 +1,8 @@
 package com.example.plugins
 
+import com.example.domain.logicflow.Game
 import com.example.domain.model.SessionClient
 import com.example.domain.model.SessionServer
-import com.example.domain.usecase.GameUsecases
 import com.example.endpoints.*
 import io.ktor.server.routing.*
 import io.ktor.server.application.*
@@ -13,7 +13,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 fun Application.configureRouting() {
 
-    val gameUsecases: GameUsecases by inject(GameUsecases::class.java)
+    val gameLogic: Game by inject(Game::class.java)
 
     routing {
 
@@ -24,7 +24,7 @@ fun Application.configureRouting() {
             friends()
             cards()
             decks()
-            game(gameUsecases)
+            game(gameLogic)
         }
         testRoute()
 

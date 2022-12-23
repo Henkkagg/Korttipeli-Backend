@@ -1,23 +1,24 @@
 package com.example.data.dto
 
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import org.litote.kmongo.newId
 
 data class Game(
     @SerializedName("id")
     val _id: String = newId<Game>().toString(),
-    val deckId: String = "iidee123445",
-    val name: String = "Testipeli tervetuloa",
-    val owner: String = "Testiuseri",
+    val deckId: String,
+    val name: String,
+    val owner: String,
     //0 = in lobby, 1 = in play
     var state: Int = 0,
-    var players: List<String> = emptyList(),
+    val players: MutableList<String> = mutableListOf(),
     var playerInTurn: String = "",
     var cardsIdsRemaining: List<String> = emptyList(),
     var virusInPlay: VirusInplay? = null,
     var secretsInPlay: List<SecretInPlay> = emptyList()
 ) {
-
+    fun toJson(): String = Gson().toJson(this)
 }
 
 data class VirusInplay(

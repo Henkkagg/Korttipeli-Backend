@@ -20,3 +20,9 @@ data class NewGameFromClient(
     val deckId: String,
     val name: String
 )
+
+sealed class GameInput {
+    object StartGame: GameInput()
+    object FinishTurn: GameInput()
+    class UseSecret(val cardId: String): GameInput()
+}

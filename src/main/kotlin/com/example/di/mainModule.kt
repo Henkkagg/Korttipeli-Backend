@@ -1,6 +1,7 @@
 package com.example.di
 
 import com.example.data.repository.*
+import com.example.domain.logicflow.Game
 import com.example.domain.repository.*
 import com.example.domain.usecase.*
 import com.example.domain.usecase.account_management.*
@@ -8,10 +9,6 @@ import com.example.domain.usecase.authentication.*
 import com.example.domain.usecase.cards.*
 import com.example.domain.usecase.decks.*
 import com.example.domain.usecase.friendlist.*
-import com.example.domain.usecase.game.CreateGame
-import com.example.domain.usecase.game.GetGameId
-import com.example.domain.usecase.game.JoinGame
-import com.example.domain.usecase.game.UpdateAuthorizedCards
 import de.mkammerer.argon2.Argon2Factory
 import org.koin.dsl.module
 import org.litote.kmongo.coroutine.coroutine
@@ -96,12 +93,7 @@ val mainModule = module {
     }
 
     single {
-        GameUsecases(
-            CreateGame(get(), get()),
-            JoinGame(get(), get()),
-            GetGameId(get(), get()),
-            UpdateAuthorizedCards(get(), get(), get())
-        )
+        Game()
     }
 
 
