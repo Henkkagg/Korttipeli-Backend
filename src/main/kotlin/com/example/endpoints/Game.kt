@@ -49,9 +49,16 @@ fun Route.game(gameLogic: com.example.domain.logicflow.Game) {
             if (frame !is Frame.Text) continue
 
             println(frame.readText())
+
+            when (frame.readText()) {
+                "startGame" -> gameLogic.inputStartGame(gameSessions, verifiedGameId, username)
+                "revealCard" -> gameLogic.inputRevealCard(gameSessions, verifiedGameId, username)
+                "endTurn" -> gameLogic.inputEndTurn(gameSessions, verifiedGameId, username)
+                else -> gameLogic.inputUseSecret(gameSessions, verifiedGameId, username, frame.readText())
+            }
         }
 
-        gameLogic.disconnectSession(verifiedGameId, gameSessions, this)
+        gameLogic.disconnectSession(verifiedGameId, gameSessions, this, username)
 
     }
 }

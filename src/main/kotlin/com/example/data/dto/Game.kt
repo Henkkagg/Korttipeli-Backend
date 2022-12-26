@@ -10,7 +10,7 @@ data class Game(
     val deckId: String,
     val name: String,
     val owner: String,
-    //0 = in lobby, 1 = in play
+    //0 = in lobby, 1 = waiting card reveal, 2 = waiting end of turn, 3 = game has ended
     var state: Int = 0,
     val players: MutableList<String> = mutableListOf(),
     var playerInTurn: String = "",

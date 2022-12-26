@@ -1,6 +1,7 @@
 package com.example.domain.logicflow
 
 import com.example.data.dto.RefreshIdUsernamePair
+import com.example.domain.cleanName
 import com.example.domain.model.Credidentials
 import com.example.domain.model.TokenPair
 import com.example.domain.usecase.AccountManagementResult
@@ -15,7 +16,7 @@ class Authentication {
     suspend fun checkCredidentials(credidentials: Credidentials): AccountManagementResult {
         val accountManagement: AccountManagementUsecases by inject(AccountManagementUsecases::class.java)
 
-        val username = credidentials.username.trim()
+        val username = credidentials.username.cleanName()
         val unverifiedPassword = credidentials.password
 
         val correctHashPairedWithSalt =
@@ -27,7 +28,7 @@ class Authentication {
     }
 
     suspend fun generateTokenPairByCredidentials(credidentials: Credidentials): TokenPair? {
-        val username = credidentials.username.trim()
+        val username = credidentials.username.cleanName()
         authentication.deleteByUsername(username)
 
         return tokenPairGenerator(username)

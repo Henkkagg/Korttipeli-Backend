@@ -1,5 +1,6 @@
 package com.example.endpoints
 
+import com.example.domain.cleanName
 import com.example.domain.logicflow.Friends
 import com.example.domain.usecase.RelationshipResult
 import io.ktor.http.*
@@ -24,7 +25,7 @@ fun Route.friends() {
 
     post("/friendlist/add") {
         val username = call.principal<JWTPrincipal>()?.payload?.getClaim("username")?.asString() ?: return@post
-        val targetUser = call.receive<String>().trim()
+        val targetUser = call.receive<String>().cleanName()
         if (targetUser.isEmpty()) {
             call.respond(HttpStatusCode.BadRequest)
             return@post
