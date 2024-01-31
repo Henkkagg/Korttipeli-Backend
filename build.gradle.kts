@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
@@ -5,7 +7,7 @@ val koin_version: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm") version "1.9.22"
 }
 
 group = "com.example"
@@ -49,4 +51,13 @@ dependencies {
 
     //Argon2
     implementation("de.mkammerer:argon2-jvm:2.11")
+    implementation(kotlin("stdlib-jdk8"))
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }
